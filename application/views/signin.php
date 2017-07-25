@@ -10,7 +10,7 @@
 
     <h1>Sign in</h1>
 
-    <?php echo form_open('List_Test'); ?>
+    <form action="<?php echo base_url('List_Test/signin') ?>" method="post">
       <label for="username">Username</label>
       <input type="text" name="username" id="username" class="textinput"> <br>
 

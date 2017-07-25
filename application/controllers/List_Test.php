@@ -12,14 +12,27 @@
 
     public function index()
     {
-      $this->form_validation->set_rules('username','Username','require');
-      $this->form_validation->set_rules('password','Password','require');
+      if($this->session->userdata('username'))
+      {
+        $this->load->view('success');
+      }else {
+        $this->load->view('signin');
+      }
 
-      if($this->form_validation->run() == FALSE)
+    }
+
+    public function signin()
+    {
+      $this->form_validation->set_rules('username','Username','trim|required');
+      $this->form_validation->set_rules('password','Password','trim|required');
+      $this->form_validation->set_rules('signin_submit','Sign in','callback_check_login');
+
+      if($this->form_validation->run() == false)
       {
         $this->load->view('signin');
       }else {
-        $this->load->view('signup');
+        $this->session->set_userdata('username',$this->input->post('username'));
+        redirect(List_Test);
       }
 
     }
@@ -67,14 +80,17 @@
       }
     }
 
-    public function test()
+    public function check_login()
     {
-      $username = 'Phuc';
-      if(!$this->Users->validUser($username))
+      $username = $this->input->post('username');
+      $password = $this->input->post('password');
+
+      if(!$this->Users->checkLogin($username, $password))
       {
-        echo 'Co roi';
+        $this->form_validation->set_message('check_login','Ten dang nhap hoac mat khau khong dung');
+        return false;
       }else {
-        echo 'Chua co';
+        return true;
       }
     }
   }
