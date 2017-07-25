@@ -21,12 +21,23 @@
 
     public function checkLogin($username, $password)
     {
-      $this->db->select('username');
+      $this->db->select('username,pass');
       $this->db->where('username',$username);
-      $this->db->where('pass',$password);
       $this->db->from($this->table_name);
 
-      return $this->db->count_all_results() == 1;
+      if($this->db->count_all_results() != 1)
+        {return false;}
+      else {
+        $query = $this->db->get();
+        $row = $query->row();
+
+        if(password_verify($password,$row->pass))
+          return true;
+        else {
+          return false;
+        }
+      }
+
     }
 
     public function insertData($Userdata)

@@ -52,7 +52,7 @@
       }else {
         $userData = array(
           'username' => $this->input->post('username'),
-          'pass' => $this->input->post('password'),
+          'pass' => password_hash($this->input->post('password'),PASSWORD_DEFAULT),
           'email' => $this->input->post('email'),
           'phonenumber' => $this->input->post('phonenumber')
         );
@@ -93,5 +93,7 @@
         return true;
       }
     }
+
+
   }
  ?>
