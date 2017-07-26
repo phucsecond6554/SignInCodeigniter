@@ -23,10 +23,12 @@
     {
       $this->db->select('username,pass');
       $this->db->where('username',$username);
-      $this->db->from($this->table_name);
+      //$this->db->from($this->table_name);
 
-      if($this->db->count_all_results() != 1)
-        {return false;}
+      if($this->db->count_all_results($this->table_name,false) != 1)
+      {
+        return false;
+      }
       else {
         $query = $this->db->get();
         $row = $query->row();
